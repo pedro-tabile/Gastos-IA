@@ -3,6 +3,7 @@ package backend.spring_ai;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.openai.OpenAiAudioTranscriptionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,12 +35,13 @@ public class OpenAiTranscriptionModelIt {
                 .language("pt")
                 .responseFormat(OpenAiAudioApi.TranscriptResponseFormat.TEXT)
                 .prompt(prompt)
-                .build();
-        var transcriptionPrompt = new AudioTranscriptionPrompt(recording, options);*/
+                .build();*/
 
-        var response = openAiAudioTranscriptionModel.call(recording);
+        var transcriptionPrompt = new AudioTranscriptionPrompt(recording);
 
-        assertThat(response).contains(expectedKeywords);
-        System.out.println(response);
+        var response = openAiAudioTranscriptionModel.call(transcriptionPrompt);
+
+        assertThat(response.getResult().getOutput()).contains(expectedKeywords);
+        System.out.println(response.getResult().getOutput());
     }
 }
