@@ -1,23 +1,27 @@
 package backend.spring_ai;
 
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ai.audio.transcription.TranscriptionModel;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.*;
 
 @RestController
 @RequestMapping("/api")
 public class TranscriptionController {
-    // Starter configura e injeta
-    private final ChatClient chatClient;
+    private final TranscriptionModel transcriptionModel;
 
-    public TranscriptionController(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    public TranscriptionController(TranscriptionModel transcriptionModel) {
+        this.transcriptionModel = transcriptionModel;
     }
 
-    @GetMapping("/chat-client")
-    // Param da req inferido pelo param do método
-    String chat(String prompt) {
-        return chatClient.prompt().user(prompt).call().content() ;
+    @PostMapping(value = "/trasncribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String transcribe(@RequestParam("file") MultipartFile file) {
+        var resource = file.getResource();
+        return transcriptionModel.transcribe(resource);
     }
 }

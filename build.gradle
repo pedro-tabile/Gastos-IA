@@ -24,7 +24,7 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // BOM fornece uma lista de dependência e versões relacionadas - sabe qual versão correta adicionar
-    implementation platform("org.springframework.ai:spring-ai-bom:2.0.0-M4")
+    implementation platform("org.springframework.ai:spring-ai-bom:2.0.0-M5")
     implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.ai:spring-ai-starter-model-openai'
