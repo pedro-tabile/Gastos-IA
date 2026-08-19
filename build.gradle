@@ -27,6 +27,7 @@ dependencies {
     implementation platform("org.springframework.ai:spring-ai-bom:2.0.0-M4")
     implementation 'org.springframework.ai:spring-ai-starter-model-google-genai'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter'
 }
 
 tasks.named('test') {
