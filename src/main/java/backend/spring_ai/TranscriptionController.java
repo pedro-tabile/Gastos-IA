@@ -19,7 +19,7 @@ public class TranscriptionController {
         this.transcriptionModel = transcriptionModel;
     }
 
-    @PostMapping(value = "/trasncribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/transcribe", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String transcribe(@RequestParam("file") MultipartFile file) {
         var resource = file.getResource();
         return transcriptionModel.transcribe(resource);
