@@ -19,6 +19,6 @@ public class ChatClientController {
     @GetMapping("/chat-client")
     // Param da req inferido pelo param do método
     String chat(String prompt) {
-        return chatClient.prompt().user(prompt).call().content();
+        return chatClient.prompt().user(prompt).call().content() ;
     }
 }
