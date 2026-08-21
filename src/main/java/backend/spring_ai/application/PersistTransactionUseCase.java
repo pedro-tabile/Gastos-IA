@@ -4,7 +4,9 @@ import backend.spring_ai.application.input.PersistTransactionInput;
 import backend.spring_ai.application.output.TransactionOutput;
 import backend.spring_ai.domain.Transaction;
 import backend.spring_ai.domain.TransactionRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PersistTransactionUseCase {
     private final TransactionRepository transactionRepository;
 
