@@ -4,6 +4,8 @@ import backend.spring_ai.application.input.PersistTransactionInput;
 import backend.spring_ai.application.output.TransactionOutput;
 import backend.spring_ai.domain.Transaction;
 import backend.spring_ai.domain.TransactionRepository;
+import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.ai.tool.annotation.ToolParam;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +16,11 @@ public class PersistTransactionUseCase {
         this.transactionRepository = transactionRepository;
     }
 
-    public TransactionOutput execute(PersistTransactionInput input) {
+    @Tool(name = "persist-transaction", description = "Persiste uma nova transação")
+    public TransactionOutput execute(
+            @ToolParam(description = "Dados de entrada para persistência: descrição, valor e categoria da transação")
+            PersistTransactionInput input
+    ) {
         var transaction = transactionRepository.save(
                 new Transaction(input.description(), input.amount(), input.category())
         );
