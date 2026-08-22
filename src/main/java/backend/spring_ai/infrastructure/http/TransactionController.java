@@ -5,14 +5,25 @@ import backend.spring_ai.application.PersistTransactionUseCase;
 import backend.spring_ai.domain.Category;
 import backend.spring_ai.infrastructure.http.dto.request.TransactionRequest;
 import backend.spring_ai.infrastructure.http.dto.response.TransactionResponse;
+import org.springframework.ai.audio.transcription.TranscriptionModel;
+import org.springframework.ai.audio.tts.TextToSpeechModel;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,10 +33,19 @@ public class TransactionController {
     private final PersistTransactionUseCase persistTransactionUseCase;
     private final ListTransactionsByCategoryUseCase listTransactionsByCategoryUseCase;
 
+    private final TranscriptionModel transcriptionModel;
+    private final ChatClient chatClient;
+    private final TextToSpeechModel textToSpeechModel;
+
     public TransactionController(PersistTransactionUseCase persistTransactionUseCase,
-                                 ListTransactionsByCategoryUseCase listTransactionsByCategoryUseCase) {
+                                 ListTransactionsByCategoryUseCase listTransactionsByCategoryUseCase,
+                                 TranscriptionModel transcriptionModel,
+                                 ChatClient chatClient, TextToSpeechModel textToSpeechModel) {
         this.persistTransactionUseCase = persistTransactionUseCase;
         this.listTransactionsByCategoryUseCase = listTransactionsByCategoryUseCase;
+        this.transcriptionModel = transcriptionModel;
+        this.chatClient = chatClient;
+        this.textToSpeechModel = textToSpeechModel;
     }
 
     @PostMapping
@@ -39,5 +59,18 @@ public class TransactionController {
     public List<TransactionResponse> readTransactions(@PathVariable Category category) {
         return listTransactionsByCategoryUseCase.execute(category)
                 .stream().map(TransactionResponse::from).toList();
+    }
+
+    @PostMapping(value = "/ai", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "audio/mp3")
+    public ResponseEntity<ByteArrayResource> transcribe(@RequestParam("file") MultipartFile file) {
+        var transcription = transcriptionModel.transcribe(file.getResource());
+        var responseText = chatClient.prompt().user(transcription).call().content();
+        byte[] audio = textToSpeechModel.call(responseText);
+        var resource = new ByteArrayResource(audio);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        ContentDisposition.attachment().filename("audio.mp3").build().toString())
+                .body(resource);
     }
 }
