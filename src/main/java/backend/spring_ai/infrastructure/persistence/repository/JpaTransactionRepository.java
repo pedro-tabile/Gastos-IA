@@ -7,6 +7,8 @@ import backend.spring_ai.infrastructure.persistence.entity.TransactionEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class JpaTransactionRepository implements TransactionRepository {
@@ -25,6 +27,12 @@ public class JpaTransactionRepository implements TransactionRepository {
     @Override
     public List<Transaction> findAllByCategory(Category category) {
         return transactionEntityRepository.findAllByCategory(category).stream()
+                .map(TransactionEntity::toTransaction).toList();
+    }
+
+    @Override
+    public List<Transaction> findAll() {
+        return StreamSupport.stream(transactionEntityRepository.findAll().spliterator(), false)
                 .map(TransactionEntity::toTransaction).toList();
     }
 }
