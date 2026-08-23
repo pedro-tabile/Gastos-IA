@@ -8,7 +8,9 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,6 +23,15 @@ public class TransactionEntity {
     private String description;
     private long amount;
     private Category category;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    public TransactionEntity(UUID id, String description, long amount, Category category) {
+        this.id = id;
+        this.amount = amount;
+        this.category = category;
+        this.description = description;
+    }
 
     public static TransactionEntity from(Transaction transaction) {
         return new TransactionEntity(
@@ -36,7 +47,8 @@ public class TransactionEntity {
                 new TransactionId(this.id),
                 this.description,
                 this.amount,
-                this.category
+                this.category,
+                this.createdAt
         );
     }
 }
