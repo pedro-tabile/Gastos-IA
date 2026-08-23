@@ -1,6 +1,7 @@
 package backend.spring_ai.infrastructure.http;
 
 import backend.spring_ai.application.ListTransactionsByCategoryUseCase;
+import backend.spring_ai.application.ListTransactionsUseCase;
 import backend.spring_ai.application.PersistTransactionUseCase;
 import backend.spring_ai.domain.Category;
 import backend.spring_ai.infrastructure.http.dto.request.TransactionRequest;
@@ -32,6 +33,7 @@ import java.util.List;
 public class TransactionController {
     private final PersistTransactionUseCase persistTransactionUseCase;
     private final ListTransactionsByCategoryUseCase listTransactionsByCategoryUseCase;
+    private final ListTransactionsUseCase listTransactionsUseCase;
 
     private final TranscriptionModel transcriptionModel;
     private final ChatClient chatClient;
@@ -39,10 +41,12 @@ public class TransactionController {
 
     public TransactionController(PersistTransactionUseCase persistTransactionUseCase,
                                  ListTransactionsByCategoryUseCase listTransactionsByCategoryUseCase,
+                                 ListTransactionsUseCase listTransactionsUseCase,
                                  TranscriptionModel transcriptionModel,
                                  ChatClient chatClient, TextToSpeechModel textToSpeechModel) {
         this.persistTransactionUseCase = persistTransactionUseCase;
         this.listTransactionsByCategoryUseCase = listTransactionsByCategoryUseCase;
+        this.listTransactionsUseCase = listTransactionsUseCase;
         this.transcriptionModel = transcriptionModel;
         this.chatClient = chatClient;
         this.textToSpeechModel = textToSpeechModel;
@@ -58,6 +62,12 @@ public class TransactionController {
     @GetMapping("/{category}")
     public List<TransactionResponse> readTransactions(@PathVariable Category category) {
         return listTransactionsByCategoryUseCase.execute(category)
+                .stream().map(TransactionResponse::from).toList();
+    }
+
+    @GetMapping()
+    public List<TransactionResponse> listTransactions() {
+        return listTransactionsUseCase.execute()
                 .stream().map(TransactionResponse::from).toList();
     }
 
