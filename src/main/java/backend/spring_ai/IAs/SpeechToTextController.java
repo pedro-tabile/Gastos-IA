@@ -1,4 +1,4 @@
-package backend.spring_ai;
+package backend.spring_ai.IAs;
 
 import org.springframework.ai.audio.transcription.TranscriptionModel;
 import org.springframework.http.MediaType;

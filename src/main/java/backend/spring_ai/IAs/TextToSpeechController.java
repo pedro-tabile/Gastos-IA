@@ -1,4 +1,4 @@
-package backend.spring_ai;
+package backend.spring_ai.IAs;
 
 import org.springframework.ai.audio.tts.TextToSpeechModel;
 import org.springframework.core.io.ByteArrayResource;
