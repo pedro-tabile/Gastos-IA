@@ -15,8 +15,8 @@ import java.util.UUID;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class TransactionEntity {
     @Id
     private UUID id;
@@ -38,7 +38,8 @@ public class TransactionEntity {
                 transaction.getId().id(),
                 transaction.getDescription(),
                 transaction.getAmount(),
-                transaction.getCategory()
+                transaction.getCategory(),
+                transaction.getCreatedAt()
         );
     }
 
