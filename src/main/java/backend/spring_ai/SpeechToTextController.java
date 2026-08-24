@@ -8,14 +8,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-
 @RestController
 @RequestMapping("/api")
-public class TranscriptionController {
+public class SpeechToTextController {
     private final TranscriptionModel transcriptionModel;
 
-    public TranscriptionController(TranscriptionModel transcriptionModel) {
+    public SpeechToTextController(TranscriptionModel transcriptionModel) {
         this.transcriptionModel = transcriptionModel;
     }
 
