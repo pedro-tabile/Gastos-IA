@@ -6,8 +6,12 @@
 
 Este projeto foi desenvolvido como parte do **Bootcamp Java AI da DIO** (Digital Innovation One). Trata-se de um sistema simples e didático (sem validações complexas, tratamentos de exceções avançados, etc.) focado na integração de serviços de Inteligência Artificial, transcrição de áudio e registro de gastos financeiros (transactions).
 
+<br>
+
 ## 🚀 O que ele faz
 A aplicação é uma API REST que permite o gerenciamento de despesas (Transações/Transactions) com recursos avançados de IA. Além do CRUD básico de gastos categorizados (ex: supermercado, farmácia, cosméticos...), a aplicação oferece um fluxo inteligente onde o usuário pode enviar um arquivo de áudio relatando um gasto. O sistema transcreve o áudio, processa a informação usando um modelo de linguagem natural (LLM) e devolve uma resposta em formato de áudio (Text-to-Speech para download.
+
+<br>
 
 ## 🛠️ Tecnologias Utilizadas
 O projeto foi construído utilizando as seguintes tecnologias, frameworks e APIs:
@@ -20,10 +24,14 @@ O projeto foi construído utilizando as seguintes tecnologias, frameworks e APIs
 - **Lombok**: Redução de boilerplate code.
 - **SpringDoc OpenAPI (Swagger)**: Documentação interativa dos endpoints.
 
+<br>
+
 ### Inteligências Artificiais e Modelos
 - **Gemini (Google GenAI) - `gemini-3.6-flash`**: Utilizado como o cérebro principal (Chat Model) para processar o texto transcrito, extrair informações e gerar respostas inteligentes.
 - **Groq AI (via compatibilidade OpenAI) - `whisper-large-v3-turbo`**: Modelo Whisper utilizado para transcrição de áudio (Speech-to-Text), convertendo a fala do usuário em texto.
 - **ElevenLabs - `elevenlabs`**: Serviço de Text-to-Speech utilizado para converter a resposta gerada pelo Gemini em voz (audio/MP3), retornando um áudio ao usuário.
+
+<br>
 
 ## 🏗️ Arquitetura do Projeto
 O projeto foi estruturado utilizando conceitos de **Clean Architecture / Arquitetura Hexagonal**, garantindo baixo acoplamento e separação de responsabilidades. O código está dividido em três camadas principais:
@@ -31,11 +39,15 @@ O projeto foi estruturado utilizando conceitos de **Clean Architecture / Arquite
 - **Application**: Contém os casos de uso (Use Cases) que orquestram a lógica aplicada (ex: `PersistTransactionUseCase`, `DeleteTransactionUseCase`).
 - **Infrastructure**: Contém as conexões externas, como Controllers HTTP (`TransactionController`) e banco de dados - Entidades (`TransactionEntity`) e Repositórios JPA (`TransactionEntityRepository`).
 
+<br>
+
 ## 💡 Implementação de Melhorias
 Para expandir o projeto original, foram implementadas as seguintes melhorias:
 1. **Atributo de Data de Criação (`createdAt`)**: Adicionado à entidade para registrar automaticamente o momento exato em que o gasto foi criado no banco.
 2. **Ação de Find (Busca)**: Implementado o endpoint para listar todas as transações cadastradas.
 3. **Ação de Delete (Exclusão)**: Adicionado o endpoint e caso de uso correspondentes à exclusão de uma transação específica a partir do id (UUID).
+
+<br>
 
 ## 💾 Estrutura da Entidade
 A entidade `TransactionEntity` (referente às transações de gastos) possui a seguinte estrutura no banco de dados:
@@ -47,6 +59,8 @@ Category category;       // Categoria (GROCERIES, PHARMA, COSMETICS, FOOD, ENTER
 LocalDateTime createdAt; // Data e hora da criação (gerado automaticamente)
 ```
 
+<br>
+
 ## 🔌 Funcionalidades Oferecidas: Endpoints
 
 - `POST /transactions`: Cria uma nova transação.
@@ -56,12 +70,16 @@ LocalDateTime createdAt; // Data e hora da criação (gerado automaticamente)
 - `DELETE /transactions?id=...`: Deleta uma transação a partir do seu ID.
 - `POST /transactions/ai`: Recebe um arquivo de áudio, transcreve, processa e retorna uma resposta em áudio (MP3).
 
+<br>
+
 ### Endpoints de Testes Individuais de IA (`/api/*`)
 Além do fluxo principal, a aplicação conta com rotas específicas para testar cada serviço de IA individualmente:
 
 - `GET /api/chat-client?prompt=...`: Envia um texto (prompt) para o Gemini e retorna a resposta textual (teste do Chat Client).
 - `POST /api/transcribe`: Recebe um arquivo de áudio via `multipart/form-data` (chave `file`), envia para o modelo Whisper (Groq) e retorna o texto transcrito (Speech-to-Text).
 - `POST /api/synthesize?text=...`: Recebe um texto, envia para ElevenLabs e retorna um arquivo de áudio `audio/mp3` contendo a fala gerada (Text-to-Speech).
+
+<br>
 
 ### Exemplo de JSON dos Endpoints (Request / Response) 
 
@@ -85,6 +103,8 @@ Além do fluxo principal, a aplicação conta com rotas específicas para testar
   "createdAt": "2024-10-23T15:30:00"
 }
 ```
+
+<br>
 
 ## ⚙️ Passo a Passo para Clonar e Utilizar
 
@@ -110,6 +130,8 @@ Além do fluxo principal, a aplicação conta com rotas específicas para testar
    ```bash
    ./gradlew bootRun
    ```
+
+<br>
 
 ## 🧪 Como Testar o Fluxo Principal
 
