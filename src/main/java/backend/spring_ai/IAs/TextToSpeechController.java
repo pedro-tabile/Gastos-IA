@@ -1,4 +1,4 @@
-package backend.spring_ai;
+package backend.spring_ai.IAs;
 
 import org.springframework.ai.audio.tts.TextToSpeechModel;
 import org.springframework.core.io.ByteArrayResource;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,7 +23,7 @@ public class TextToSpeechController {
     }
 
     @PostMapping(value = "/synthesize", produces = "audio/mp3")
-    public ResponseEntity<Resource> transcribe(@RequestBody SynthesizeRequest request) {
+    public ResponseEntity<Resource> transcribe(@RequestParam SynthesizeRequest request) {
         byte[] audio = textToSpeechModel.call(request.text());
         var resource = new ByteArrayResource(audio);
 

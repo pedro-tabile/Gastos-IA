@@ -3,7 +3,7 @@ services:
     image: mysql:9.6
     environment:
       MYSQL_DATABASE: transaction
-      MYSQL_ROOT_PASSWORD: mysql123
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_USER: app
       MYSQL_PASSWORD: app
     ports:

@@ -1,11 +1,10 @@
-package backend.spring_ai;
+package backend.spring_ai.IAs;
 
 import org.springframework.ai.google.genai.GoogleGenAiChatModel;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+//@RestController
 @RequestMapping("/api")
 public class ChatModelController {
     // Starter configura e injeta
