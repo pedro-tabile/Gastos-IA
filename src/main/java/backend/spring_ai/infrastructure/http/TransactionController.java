@@ -61,7 +61,7 @@ public class TransactionController {
         this.updateTransactionUseCase = updateTransactionUseCase;
         this.deleteTransactionUseCase = deleteTransactionUseCase;
         this.transcriptionModel = transcriptionModel;
-        this.chatClient = chatClient;
+        this.chatClient = chatClient;   
         this.textToSpeechModel = textToSpeechModel;
     }
 

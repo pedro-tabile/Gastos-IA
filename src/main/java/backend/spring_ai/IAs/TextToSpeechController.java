@@ -23,7 +23,7 @@ public class TextToSpeechController {
     }
 
     @PostMapping(value = "/synthesize", produces = "audio/mp3")
-    public ResponseEntity<Resource> transcribe(@RequestParam SynthesizeRequest request) {
+    public ResponseEntity<Resource> synthesize(@RequestBody SynthesizeRequest request) {
         byte[] audio = textToSpeechModel.call(request.text());
         var resource = new ByteArrayResource(audio);
 
